@@ -32,11 +32,12 @@ func _notification(what : int):
 		# later on.
 		get_tree().connect("node_added", self, "_on_add_node")
 		get_tree().connect("node_removed", self, "_on_remove_node")
-		_customize_children()
+		_customize_children(custom_multiplayer)
 	elif what == NOTIFICATION_EXIT_TREE:
 		# Don't forget to disconnect
 		get_tree().disconnect("node_added", self, "_on_add_node")
 		get_tree().disconnect("node_removed", self, "_on_remove_node")
+		_customize_children(null)
 
 # When the MultiplayerAPI is not managed directly by the SceneTree
 # we MUST poll it
@@ -77,7 +78,7 @@ func _on_node_removed(node):
 	node.custom_multiplayer = null
 
 # This function customize all the child nodes added when the scene is instanced
-func _customize_children():
+func _customize_children(api : MultiplayerAPI):
 	# Remember to mind the stack ;-)
 	# We use a frontier to avoid recursion.
 	var frontier = []
@@ -87,7 +88,7 @@ func _customize_children():
 		var node = frontier.pop_front()
 		frontier += node.get_children()
 		# Same as in _on_add_node we customize the MultiplayerAPI of our child.
-		node.custom_multiplayer = custom_multiplayer
+		node.custom_multiplayer = api
 
 ### That's it, nothing more. Children that calls rpc/rset will use our custom
 ### MultiplayerAPI and not the global SceneTree one.
