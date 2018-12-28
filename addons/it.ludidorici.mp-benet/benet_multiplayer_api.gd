@@ -28,6 +28,9 @@ func _send_bytes(pkt : PoolByteArray, target : int, mode : int, channel : int):
 	send_bytes(pkt, target, mode)
 	_restore_peer(mode)
 
+func get_rpc_channel() -> int:
+	return network_peer.get_last_packet_channel()
+
 func broadcast(pkt : PoolByteArray, channel : int):
 	send(0, pkt, channel)
 
