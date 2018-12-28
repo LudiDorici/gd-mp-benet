@@ -70,7 +70,7 @@ func _on_add_node(node):
 	# Let's apply to it our own custom multiplayer
 	node.custom_multiplayer = custom_multiplayer
 
-func _on_node_removed(node):
+func _on_remove_node(node):
 	if not _is_offspring(node):
 		# Not mine, leave it alone.
 		return
