@@ -12,6 +12,12 @@ func _ready():
 	mode.add_item("RELIABLE", NetworkedMultiplayerPeer.TRANSFER_MODE_RELIABLE)
 	mode.add_item("ORDERED", NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE_ORDERED)
 	mode.add_item("UNRELIABLE", NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE)
+	$Panel/BENetNode/Game.connect("update_ping", self, "_update_ping")
+
+func _update_ping(state):
+	$Panel/VBoxContainer/Pings.clear()
+	for k in state:
+		$Panel/VBoxContainer/Pings.add_item("%d - %d" % [k, state[k]])
 
 func _on_Server_pressed():
 	if $Panel/BENetNode.start_server(PORT) == OK:

@@ -1,9 +1,15 @@
 extends Node
 
+signal update_ping(state)
+
 func _ready():
+	multiplayer.pinger.connect("sync_state", self, "update_ping")
 	multiplayer.connect("benet_packet", self, "network_packet")
 	multiplayer.connect("network_peer_connected", self, "peer_connected")
 	multiplayer.connect("network_peer_disconnected", self, "peer_disconnected")
+
+func update_ping(state):
+	emit_signal("update_ping", state)
 
 func peer_connected(id):
 	print("Peer conncted %d" % id)
