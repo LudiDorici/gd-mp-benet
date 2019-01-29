@@ -1,17 +1,27 @@
 extends "custom_multiplayer.gd"
 
 const BENetAPI = preload("benet_multiplayer_api.gd")
+const Pinger = preload("benet_pinger.gd")
 
 export var in_bandwidth = 0
 export var out_bandwidth = 0
 export(int, 3, 255, 1) var channels = 3 setget set_channels
 export var max_peers = 32
+export var use_pinger = true
 
 var _peer : NetworkedMultiplayerENet = null
 
 func _init():
+	# And pinger!
+	var pinger = Pinger.new()
+	pinger.name = "Pinger"
+	add_child(pinger)
+	if use_pinger:
+		pinger.active = true
+	# Init our benet_multiplayer
 	custom_multiplayer = BENetAPI.new()
 	custom_multiplayer.set_root_node(self)
+	custom_multiplayer.pinger = pinger
 
 func _exit_tree():
 	close_connection()

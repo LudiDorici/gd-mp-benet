@@ -2,6 +2,7 @@ extends MultiplayerAPI
 
 const CHANNEL_MIN = 3
 const CHANNEL_MAX = 255
+var pinger = null
 
 signal benet_packet(id, packet, channel)
 
