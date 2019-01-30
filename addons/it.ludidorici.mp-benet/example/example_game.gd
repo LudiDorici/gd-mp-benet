@@ -1,9 +1,12 @@
 extends Node
 
+const Spawnable = preload("ReplicatedScene.tscn")
+
 signal update_ping(state)
 
 func _ready():
 	multiplayer.pinger.connect("sync_state", self, "update_ping")
+	multiplayer.replicator.register_scene(Spawnable)
 	multiplayer.connect("benet_packet", self, "network_packet")
 	multiplayer.connect("network_peer_connected", self, "peer_connected")
 	multiplayer.connect("network_peer_disconnected", self, "peer_disconnected")
@@ -40,3 +43,9 @@ func send_bytes(mode : int, channel : int):
 			multiplayer.broadcast_ordered(PoolByteArray([1,2,3]), channel)
 		NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE:
 			multiplayer.broadcast_unreliable(PoolByteArray([1,2,3]), channel)
+
+func spawn():
+	var spawn = Spawnable.instance()
+	# This really should be done by PacketScene
+	spawn.set_meta("scene", Spawnable.resource_path)
+	add_child(spawn)

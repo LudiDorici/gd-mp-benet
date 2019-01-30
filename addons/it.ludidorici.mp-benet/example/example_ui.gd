@@ -52,3 +52,6 @@ func _on_SendBytes_pressed():
 	var mode : int = $Panel/VBoxContainer/Bytes/Mode.get_selected_id()
 	var channel : int = int($Panel/VBoxContainer/Bytes/Channel.value)
 	$Panel/BENetNode/Game.send_bytes(mode, channel)
+
+func _on_Spawn_pressed():
+	$Panel/BENetNode/Game.spawn()

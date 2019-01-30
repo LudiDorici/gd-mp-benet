@@ -107,10 +107,20 @@ min_value = 1.0
 max_value = 99.0
 value = 1.0
 
-[node name="Pings" type="ItemList" parent="Panel/VBoxContainer"]
+[node name="Replicator" type="HBoxContainer" parent="Panel/VBoxContainer"]
 margin_top = 80.0
 margin_right = 1024.0
-margin_bottom = 180.0
+margin_bottom = 100.0
+
+[node name="Spawn" type="Button" parent="Panel/VBoxContainer/Replicator"]
+margin_right = 52.0
+margin_bottom = 20.0
+text = "Spawn"
+
+[node name="Pings" type="ItemList" parent="Panel/VBoxContainer"]
+margin_top = 104.0
+margin_right = 1024.0
+margin_bottom = 204.0
 rect_min_size = Vector2( 0, 100 )
 
 [connection signal="pressed" from="Panel/VBoxContainer/Create/Server" to="." method="_on_Server_pressed"]
@@ -118,3 +128,4 @@ rect_min_size = Vector2( 0, 100 )
 [connection signal="pressed" from="Panel/VBoxContainer/Create/Close" to="." method="_on_Close_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/RPC/SendRPC" to="." method="_on_SendRPC_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Bytes/SendBytes" to="." method="_on_SendBytes_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Replicator/Spawn" to="." method="_on_Spawn_pressed"]
