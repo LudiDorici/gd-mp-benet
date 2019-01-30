@@ -2,6 +2,7 @@ extends "custom_multiplayer.gd"
 
 const BENetAPI = preload("benet_multiplayer_api.gd")
 const Pinger = preload("benet_pinger.gd")
+const Replicator = preload("benet_replicator.gd")
 
 export var in_bandwidth = 0
 export var out_bandwidth = 0
@@ -18,13 +19,32 @@ func _init():
 	add_child(pinger)
 	if use_pinger:
 		pinger.active = true
+	# Add replicator!
+	var replicator = Replicator.new()
+	replicator.name = "Replicator"
+	add_child(replicator)
 	# Init our benet_multiplayer
 	custom_multiplayer = BENetAPI.new()
 	custom_multiplayer.set_root_node(self)
 	custom_multiplayer.pinger = pinger
+	custom_multiplayer.replicator = replicator
 
 func _exit_tree():
 	close_connection()
+
+func _on_add_node(node):
+	._on_add_node(node)
+	if not _is_offspring(node):
+		# Not mine, leave it alone.
+		return
+	custom_multiplayer.replicator.node_added(node)
+
+func _on_remove_node(node):
+	._on_remove_node(node)
+	if not _is_offspring(node):
+		# Not mine, leave it alone.
+		return
+	custom_multiplayer.replicator.node_deleted(node)
 
 func set_channels(value):
 	if value < BENetAPI.CHANNEL_MIN:
