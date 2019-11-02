@@ -11,7 +11,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 columns = 2
 
-[node name="Control" parent="GridContainer" instance=ExtResource( 1 )]
+[node name="ViewportContainer" type="ViewportContainer" parent="GridContainer"]
+margin_right = 510.0
+margin_bottom = 298.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="GridContainer/ViewportContainer"]
+size = Vector2( 510, 298 )
+
+[node name="Control" parent="GridContainer/ViewportContainer/Viewport" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 510.0
@@ -19,31 +29,67 @@ margin_bottom = 298.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Control2" parent="GridContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ViewportContainer2" type="ViewportContainer" parent="GridContainer"]
 margin_left = 514.0
 margin_right = 1024.0
 margin_bottom = 298.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+stretch = true
 
-[node name="Control3" parent="GridContainer" instance=ExtResource( 1 )]
+[node name="Viewport" type="Viewport" parent="GridContainer/ViewportContainer2"]
+size = Vector2( 510, 298 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Control" parent="GridContainer/ViewportContainer2/Viewport" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_right = 510.0
+margin_bottom = 298.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ViewportContainer3" type="ViewportContainer" parent="GridContainer"]
 margin_top = 302.0
 margin_right = 510.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+stretch = true
 
-[node name="Control4" parent="GridContainer" instance=ExtResource( 1 )]
+[node name="Viewport" type="Viewport" parent="GridContainer/ViewportContainer3"]
+size = Vector2( 510, 298 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Control" parent="GridContainer/ViewportContainer3/Viewport" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_right = 510.0
+margin_bottom = 298.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ViewportContainer4" type="ViewportContainer" parent="GridContainer"]
 margin_left = 514.0
 margin_top = 302.0
 margin_right = 1024.0
 margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="GridContainer/ViewportContainer4"]
+size = Vector2( 510, 298 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Control" parent="GridContainer/ViewportContainer4/Viewport" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 510.0
+margin_bottom = 298.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

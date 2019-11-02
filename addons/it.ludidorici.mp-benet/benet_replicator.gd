@@ -1,6 +1,10 @@
 extends Node
 
+var _root : Node = null
 var _scenes = Dictionary()
+
+func set_root(root : Node):
+	_root = root
 
 func register_scene(scene : PackedScene):
 	_scenes[scene.resource_path] = scene
@@ -8,24 +12,19 @@ func register_scene(scene : PackedScene):
 func has_scene(scene : String):
 	return _scenes.has(scene)
 
-func node_added(node : Node):
-	var scene = node.get_meta("scene") if node.has_meta("scene") else null
-	if scene != null and has_scene(scene) and node.get_network_master() == multiplayer.get_network_unique_id():
-		var path = str(node.get_parent().get_path()).replace(get_parent().get_path(), ".")
-		rpc("add_scene", scene, path)
-
-func node_deleted(node : Node):
-	var scene = node.get_meta("scene") if node.has_meta("scene") else null
-	if scene != null and has_scene(scene) and node.get_network_master() == multiplayer.get_network_unique_id():
-		rpc("del_scene", node.get_path())
-
-remote func add_scene(scene : String, path : NodePath):
-	if not _scenes.has(scene):
+remote func add_scene(scene : String, path : NodePath, node_name : String):
+	var rel_path = str(path).replace(_root.get_path(), "./")
+	print(_root.get_path())
+	print("OMGL %s" % rel_path)
+	if not _scenes.has(scene) or _root.has_node(rel_path + "/" + node_name):
 		print("Invalid scene %s" % scene)
 		return
 	var node = load(scene).instance()
-	get_parent().get_node(path).add_child(node)
+	node.name = node_name
+	_root.get_node(rel_path).add_child(node)
 
-func del_scene(path : NodePath):
-	var node = get_node(path)
+remote func del_scene(scene : String, path : NodePath):
+	if not _scenes.has(scene) or not _root.has_node(path) or _root.get_node(path).filename != scene:
+		print("Invalid scene %s or path %" % [scene, path])
+	var node = _root.get_node(path)
 	node.get_parent().remove_child(node)

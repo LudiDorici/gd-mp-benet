@@ -22,6 +22,7 @@ func _init():
 	# Add replicator!
 	var replicator = Replicator.new()
 	replicator.name = "Replicator"
+	replicator.set_root(self)
 	add_child(replicator)
 	# Init our benet_multiplayer
 	custom_multiplayer = BENetAPI.new()
@@ -31,20 +32,6 @@ func _init():
 
 func _exit_tree():
 	close_connection()
-
-func _on_add_node(node):
-	._on_add_node(node)
-	if not _is_offspring(node):
-		# Not mine, leave it alone.
-		return
-	custom_multiplayer.replicator.node_added(node)
-
-func _on_remove_node(node):
-	._on_remove_node(node)
-	if not _is_offspring(node):
-		# Not mine, leave it alone.
-		return
-	custom_multiplayer.replicator.node_deleted(node)
 
 func set_channels(value):
 	if value < BENetAPI.CHANNEL_MIN:
